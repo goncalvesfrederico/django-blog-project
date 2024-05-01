@@ -1,5 +1,3 @@
-version: '3.9'
-
 # services are the containers that i will create
 services:
   djangoapp:
