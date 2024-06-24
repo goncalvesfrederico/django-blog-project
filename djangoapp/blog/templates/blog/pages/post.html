@@ -1,5 +1,76 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
-    <h1>Post</h1>
+    <main class="main-content single-post section-wrapper">
+        <div class="singe-post-content section-content-narrow">
+            <div class="single-post-gap section-gap">
+                <div class="single-post-cover pb-base">
+                    <img src="https://picsum.photos/1920/1080/?rand=12" alt="Random image" loading="lazy">
+                </div>
+
+                <h2 class="single-post-title pb-base center">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </h2>
+
+                <div class="post-meta pb-base">
+                    <div class="post-meta-item">
+                        <a href="#" class="post-met-link">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Author Full Name</span>
+                        </a>
+                    </div>
+                    <div class="post-meta-item">
+                        <a href="#" class="post-meta-link">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <span>24/06/2024</span>
+                        </a>
+                    </div>
+                    <div class="post-meta-item">
+                        <a href="#" class="post-meta-link">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Category</span>
+                        </a>
+                    </div>
+                </div>
+
+                <p class="single-post-excerpt pb-base">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, atque quam vel unde dignissimos veniam sit! Atque necessitatibus exercitationem neque, suscipit aspernatur omnis pariatur doloribus, laboriosam officiis, illo tempora deleniti!
+                </p>
+
+                <div class="separator"></div>
+
+                <div class="single-post-content">
+                    {% include "blog/partials/_temp.html" %}
+
+                    <div class="post-tags">
+                        <span>Tags: </span>
+                        <a href="#" class="post-tag-link">
+                            <i class="fa-solid fa-link"></i>
+                            <span>Testing</span>
+                        </a>
+                        
+                        <a href="#" class="post-tag-link">
+                            <i class="fa-solid fa-link"></i>
+                            <span>Attention</span>
+                        </a>
+                        
+                        <a href="#" class="post-tag-link">
+                            <i class="fa-solid fa-link"></i>
+                            <span>Data Science</span>
+                        </a>
+                        
+                        <a href="#" class="post-tag-link">
+                            <i class="fa-solid fa-link"></i>
+                            <span>Thanks</span>
+                        </a>
+                        
+                        <a href="#" class="post-tag-link">
+                            <i class="fa-solid fa-link"></i>
+                            <span>Python</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 {% endblock content %}

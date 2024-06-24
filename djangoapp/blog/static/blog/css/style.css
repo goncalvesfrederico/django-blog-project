@@ -177,7 +177,7 @@ body, html, .blog-wrapper {
     margin-inline: auto;
 }
 
-.section.gap {
+.section-gap {
     padding: var(--spacing-base);
 }
 

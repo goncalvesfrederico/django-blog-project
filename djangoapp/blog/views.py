@@ -19,11 +19,11 @@ def index(request):
 def post(request):
     return render(
         request,
-        "blog/pages/post.html"
+        "blog/pages/post.html",
     )
 
 def page(request):
     return render(
         request,
-        "blog/pages/page.html"
+        "blog/pages/page.html",
     )
