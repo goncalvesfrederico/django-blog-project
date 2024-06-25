@@ -1,6 +1,6 @@
 from django.db import models
-from site_setup.utils.model_validators import validate_png
-from site_setup.utils.images import resize_image
+from utils.model_validators import validate_png
+from utils.images import resize_image
 
 class MenuLink(models.Model):
     class Meta:
