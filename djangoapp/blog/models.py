@@ -2,6 +2,25 @@ from django.db import models
 from utils.rands import new_slugfy
 from django.contrib.auth.models import User
 from utils.images import resize_image
+from django_summernote.models import AbstractAttachment
+
+class PostAttachment(AbstractAttachment):
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = self.file.name
+        
+        current_file_name = str(self.file.name)
+        super_save = super().save(*args, **kwargs)
+        file_changed = False
+
+        if self.file:
+            file_changed = current_file_name != self.file.name
+        
+        if file_changed:
+            resize_image(self.file, 900, quality=100)
+        
+        return super_save
+
 
 class Tag(models.Model):
     class Meta:
@@ -82,7 +101,7 @@ class Post(models.Model):
         verbose_name = "Post"
         verbose_name_plural = "Posts"
 
-    title = models.CharField(max_length=80,)
+    title = models.CharField(max_length=90)
     slug = models.SlugField(
         unique=True,
         max_length=120,
@@ -90,7 +109,7 @@ class Post(models.Model):
         default="",
         null=True,
     )
-    excerpt = models.CharField(max_length=120,)
+    excerpt = models.CharField(max_length=150)
     is_published = models.BooleanField(
         default=False,
         help_text="This field needs to be checked for the post to be published."
