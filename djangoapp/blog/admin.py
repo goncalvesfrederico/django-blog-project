@@ -1,3 +1,4 @@
+from typing import Any
 from django.contrib import admin
 from blog.models import Tag, Category, Page, Post
 
@@ -52,3 +53,11 @@ class PostAdmin(admin.ModelAdmin):
     }
     readonly_fields = "created_at", "updated_at", "created_by", "updated_by", 
     autocomplete_fields = "tag", "category",
+
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        if change:
+            obj.updated_by = request.user
+        else:
+            obj.created_by = request.user
+            
+        obj.save()
