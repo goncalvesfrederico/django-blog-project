@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from utils.rands import new_slugfy
 from django.contrib.auth.models import User
 from utils.images import resize_image
@@ -160,6 +161,11 @@ class Post(models.Model):
         blank=True,
         default="",
     )
+
+    def get_absolute_url(self):
+        if not self.is_published:
+            return reverse("blog:index")
+        return reverse("blog:post", kwargs={"slug": self.slug})    
     
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
