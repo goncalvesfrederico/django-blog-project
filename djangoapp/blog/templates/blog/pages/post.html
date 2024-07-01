@@ -32,11 +32,7 @@
                         <span class="post-meta-link">
                             <i class="fa-solid fa-calendar-days"></i>
                             <span>
-                                {% if post.updated_at %}
-                                    {{ post.updated_at }}
-                                {% else %}
-                                    {{ post.created_at }}
-                                {% endif %}
+                                {{ post.created_at}} {{post.created_at|time:"H:i"}}
                             </span>
                         </span>
                     </div>
