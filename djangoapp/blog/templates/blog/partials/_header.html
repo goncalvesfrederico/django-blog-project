@@ -14,10 +14,10 @@
 
             {% if site_setup.show_search %}
                 <div class="search pb-base center">
-                    <form action="#" class="search-form" method="get">
+                    <form class="search-form" action="{% url "blog:search" %}" method="get">
                         <div class="search-content">
-                            <label for="search-input" id="search-label" class="sr-only">Search</label>
-                            <input type="search" id="search-input" class="search-input" name="search" placeholder="Search" value="python">
+                            <label class="sr-only" for="search-input" id="search-label">Search</label>
+                            <input class="search-input" type="search" id="search-input" name="search" placeholder="Search" value="{{ search_value }}">
                             <button class="search-btn" type="submit" aria-labelledby="search-label">
                                 <i class="fa fa-search"></i>
                             </button>
