@@ -161,7 +161,7 @@ class Post(models.Model):
         blank=True, 
         default="",
     )
-    tag = models.ManyToManyField(
+    tags = models.ManyToManyField(
         Tag,
         blank=True,
         default="",

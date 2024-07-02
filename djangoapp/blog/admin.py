@@ -55,7 +55,7 @@ class PostAdmin(SummernoteModelAdmin):
         "slug": ("title",),
     }
     readonly_fields = "created_at", "updated_at", "created_by", "updated_by", 
-    autocomplete_fields = "tag", "category",
+    autocomplete_fields = "tags", "category",
 
     def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
         if change:
