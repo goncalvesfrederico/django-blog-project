@@ -196,6 +196,10 @@ body, html, .blog-wrapper {
     padding-bottom: var(--spacing-base);
 }
 
+.mt-base {
+  margin-top: var(--spacing-base);
+}
+
 .center {
     text-align: center;
 }
@@ -416,6 +420,10 @@ body, html, .blog-wrapper {
 }
 
 .card-text-wrapper {
+  padding: var(--spacing-base);
+}
+
+.card-content-wrapper {
   padding: var(--spacing-base);
 }
 

@@ -78,6 +78,8 @@ class Page(models.Model):
     class Meta:
         verbose_name = "Page"
         verbose_name_plural = "Pages"
+    
+    objects = PostManager()
 
     title = models.CharField(max_length=80)
     slug = models.SlugField(
