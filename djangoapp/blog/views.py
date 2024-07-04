@@ -66,6 +66,27 @@ class CreatedByListView(PostListView):
         super().__init__(**kwargs)
         self._temp_context: dict[str, Any] = {}
 
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        author_pk = self.kwargs.get("author_pk")
+        user = User.objects.filter(pk=author_pk).first()
+
+        if user is None:
+            raise Http404
+        
+        self._temp_context.update(
+            {
+                "author_pk": author_pk,
+                "user": user,
+            }
+        )
+        
+        return super().get(request, *args, **kwargs)
+    
+    def get_queryset(self) -> QuerySet[Any]:
+        qs = super().get_queryset()
+        qs = qs.filter(created_by__pk=self._temp_context["user"].pk)
+        return qs
+    
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
         user = self._temp_context["user"]
@@ -82,48 +103,24 @@ class CreatedByListView(PostListView):
         )
 
         return ctx
-    
+
+
+class CategoryListView(PostListView):
+    allow_empty = False
+
     def get_queryset(self) -> QuerySet[Any]:
-        qs = super().get_queryset()
-        qs = qs.filter(created_by__pk=self._temp_context["user"].pk)
+        qs = super().get_queryset().filter(category__slug=self.kwargs.get("slug"))
         return qs
     
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        author_pk = self.kwargs.get("author_pk")
-        user = User.objects.filter(pk=author_pk).first()
-
-        if user is None:
-            raise Http404
-        
-        self._temp_context.update(
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        page_title = f"{self.object_list[0].category} Category - "
+        context.update(
             {
-                "author_pk": author_pk,
-                "user": user,
+                "page_title": page_title,
             }
         )
-
-        return super().get(request, *args, **kwargs)
-
-
-def category(request, slug):
-    posts_obj = Post.objects.get_published().filter(category__slug=slug)
-    paginator = Paginator(posts_obj, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    if len(page_obj) == 0:
-        raise Http404()
-    
-    page_title = f"{page_obj[0].category.name} Category - "
-
-    return render(
-        request,
-        "blog/pages/index.html",
-        {
-            "page_obj": page_obj,
-            "page_title": page_title,
-        },
-    )
+        return context
 
 def tag(request, slug):
     posts_obj = Post.objects.get_published().filter(tags__slug=slug)
