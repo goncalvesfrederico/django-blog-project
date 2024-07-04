@@ -122,25 +122,25 @@ class CategoryListView(PostListView):
         )
         return context
 
-def tag(request, slug):
-    posts_obj = Post.objects.get_published().filter(tags__slug=slug)
-    paginator = Paginator(posts_obj, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
 
-    if len(page_obj) == 0:
-        raise Http404()
+class TagListView(PostListView):
+    allow_empty = False
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return super().get_queryset().filter(tags__slug=self.kwargs.get("slug"))
     
-    page_title = f"{page_obj[0].tags.filter(slug=slug).first().name} Tag - "
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        tag_slug = self.kwargs.get("slug")
+        tag_name = self.object_list[0].tags.filter(slug=tag_slug).first()
+        page_title = f"{tag_name} Tag - "
+        context.update(
+            {
+                "page_title": page_title,
+            }
+        )
+        return context
 
-    return render(
-        request,
-        "blog/pages/index.html",
-        {
-            "page_obj": page_obj,
-            "page_title": page_title,
-        },
-    )
 
 def search(request):
     search_value = request.GET.get("search", "").strip()
