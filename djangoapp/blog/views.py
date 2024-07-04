@@ -1,6 +1,6 @@
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -142,22 +142,35 @@ class TagListView(PostListView):
         return context
 
 
-def search(request):
-    search_value = request.GET.get("search", "").strip()
-    posts_obj = Post.objects.get_published().filter(
-        Q(title__icontains=search_value) | 
-        Q(excerpt__icontains=search_value) | 
-        Q(content__icontains=search_value)
-    )[:PER_PAGE]
-    
-    page_title = f"{search_value[:15]} Search - "
+class SearchListView(PostListView):
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self._search_value = ""
 
-    return render(
-        request,
-        "blog/pages/index.html",
-        {
-            "page_obj": posts_obj,
-            "search_value": search_value,
-            "page_title": page_title,
-        },
-    )
+    def setup(self, request: HttpRequest, *args: Any, **kwargs: Any) -> None:
+        self._search_value = request.GET.get("search", "").strip()
+        return super().setup(request, *args, **kwargs)
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        if self._search_value == "":
+            return redirect("blog:index")
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = super().get_queryset().filter(
+            Q(title__icontains=self._search_value) |
+            Q(excerpt__icontains=self._search_value) | 
+            Q(content__icontains=self._search_value)
+        )[:PER_PAGE]
+        return qs
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        page_title = f"{self._search_value} - "
+        context.update(
+            {
+                "search_value": self._search_value,
+                "page_title": page_title,
+            }
+        )
+        return context
