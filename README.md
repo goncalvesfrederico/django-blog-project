@@ -1,6 +1,11 @@
 # DJANGO BLOG PROJECT
 In this project, I utilized the Django Framework to develop a blog with an integrated Django Admin interface for creating posts.
 
+![image](https://github.com/goncalvesfrederico/django-blog-project/assets/110829207/87799791-fe92-407a-8ea2-250e35a07ce3)
+![image](https://github.com/goncalvesfrederico/django-blog-project/assets/110829207/6a55585f-c5af-423e-9d6c-4e868f282f15)
+![image](https://github.com/goncalvesfrederico/django-blog-project/assets/110829207/269032dd-c311-450b-a54d-326278bf618c)
+![image](https://github.com/goncalvesfrederico/django-blog-project/assets/110829207/76dc3e51-11d5-4b5c-a6ec-89626249297d)
+
 ## Features
 - Create, edit, and delete blog posts through the Django Admin interface.
 - Organize posts using categories and tags.
